@@ -1,0 +1,4 @@
+编译的时候需要设置PIN_ROOT
+make PIN_ROOT=/root/libdft64/pin/pin-3.20-98437-gf02b61307-gcc-linux
+后边是绝对地址
+具体是哪里根据你的文件夹地址而定。
