@@ -24,13 +24,13 @@ fi
 
 PIN_ROOT=`awk '{print}' ./pin.info |tail -n 1`
 echo $PIN_ROOT > ./pin.info
-MAKE=`awk '{gsub("export","make",$1);print}' ./pin.info`
+MAKE=`awk '{gsub("export"," ",$1);print}' ./pin.info`
 
-$MAKE
-
+MAKE_COMMAND="make DEBUG=1"$MAKE
+$MAKE_COMMAND
 if [ $1 ]; then
 	sed -i '31c TOOL_ROOTS := '$1'' $PWD/tools/makefile.rules
-	$MAKE
+	$MAKE_COMMAND
 fi
 
 
