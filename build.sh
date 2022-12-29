@@ -21,7 +21,7 @@ else
 	echo "pin exist!"
 fi
 
-
+# 编译指定dft模块
 PIN_ROOT=`awk '{print}' ./pin.info |tail -n 1`
 echo $PIN_ROOT > ./pin.info
 MAKE=`awk '{gsub("export"," ",$1);print}' ./pin.info`

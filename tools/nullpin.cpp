@@ -46,21 +46,24 @@
  *
  * @trace:      instructions trace; given by PIN
  */
-static void trace_inspect(TRACE trace, VOID *v) {
-  /* iterators */
-  BBL bbl;
-  INS ins;
+static void
+trace_inspect (TRACE trace, VOID *v)
+{
+    /* iterators */
+    BBL bbl;
+    INS ins;
 
-  /* instruction counter */
-  size_t ins_ct = 0;
+    /* instruction counter */
+    size_t ins_ct = 0;
 
-  /* traverse all the BBLs in the trace */
-  for (bbl = TRACE_BblHead(trace); BBL_Valid(bbl); bbl = BBL_Next(bbl)) {
-    /* traverse all the instructions in the BBL */
-    for (ins = BBL_InsHead(bbl); INS_Valid(ins); ins = INS_Next(ins))
-      /* analyze the instruction; dummy */
-      ins_ct++;
-  }
+    /* traverse all the BBLs in the trace */
+    for (bbl = TRACE_BblHead (trace); BBL_Valid (bbl); bbl = BBL_Next (bbl))
+    {
+        /* traverse all the instructions in the BBL */
+        for (ins = BBL_InsHead (bbl); INS_Valid (ins); ins = INS_Next (ins))
+            /* analyze the instruction; dummy */
+            ins_ct++;
+    }
 }
 
 /*
@@ -68,22 +71,25 @@ static void trace_inspect(TRACE trace, VOID *v) {
  *
  * used for estimating the overhead of Pin
  */
-int main(int argc, char **argv) {
-  /* initialize symbol processing */
-  PIN_InitSymbols();
+int
+main (int argc, char **argv)
+{
+    /* initialize symbol processing */
+    PIN_InitSymbols ();
 
-  /* initialize PIN; optimized branch */
-  if (unlikely(PIN_Init(argc, argv))) {
-    std::cerr
-        << "Sth error in PIN_Init. Plz use the right command line options."
-        << std::endl;
-    return -1;
-  }
+    /* initialize PIN; optimized branch */
+    if (unlikely (PIN_Init (argc, argv)))
+    {
+        std::cerr
+            << "Sth error in PIN_Init. Plz use the right command line options."
+            << std::endl;
+        return -1;
+    }
 
-  /* register trace_ins() to be called for every trace */
-  TRACE_AddInstrumentFunction(trace_inspect, NULL);
+    /* register trace_ins() to be called for every trace */
+    TRACE_AddInstrumentFunction (trace_inspect, NULL);
 
-  PIN_StartProgram();
+    PIN_StartProgram ();
 
-  return 0;
+    return 0;
 }

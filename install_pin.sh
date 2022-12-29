@@ -1,6 +1,6 @@
 #!/bin/bash
 set -eux
-PREFIX=${PREFIX:-${HOME}}
+PREFIX=${PREFIX:-${PWD}}
 
 TAR_NAME="pin-3.20-98437-gf02b61307-gcc-linux"
 

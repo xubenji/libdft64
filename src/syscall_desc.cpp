@@ -752,25 +752,25 @@ syscall_desc_t syscall_desc[SYSCALL_MAX] = {
     {3, 0, 0, {0, 0, 0, 0, 0, 0}, NULL, NULL},
     /* __NR_sched_getattr = 315 */
     {4, 0, 1, {0, sizeof(struct sched_attr), 0, 0, 0, 0}, NULL, NULL},
-    /* __NR_renameat2 316 */
-    /* __NR_seccomp 317 */
-    /* __NR_getrandom 318 */
-    /* __NR_memfd_create 319 */
-    /* __NR_kexec_file_load 320 */
-    /* __NR_bpf 321 */
-    /* __NR_execveat 322 */
-    /* __NR_userfaultfd 323 */
-    /* __NR_membarrier 324 */
-    /* __NR_mlock2 325 */
-    /* __NR_copy_file_range 326 */
-    /* __NR_preadv2 327 */
-    /* __NR_pwritev2 328 */
-    /* __NR_pkey_mprotect 329 */
-    /* __NR_pkey_alloc 330 */
-    /* __NR_pkey_free 331 */
-    /* __NR_statx 332 */
-    /* __NR_io_pgetevents 333 */
-    /* __NR_rseq 334 */
+/* __NR_renameat2 316 */
+/* __NR_seccomp 317 */
+/* __NR_getrandom 318 */
+/* __NR_memfd_create 319 */
+/* __NR_kexec_file_load 320 */
+/* __NR_bpf 321 */
+/* __NR_execveat 322 */
+/* __NR_userfaultfd 323 */
+/* __NR_membarrier 324 */
+/* __NR_mlock2 325 */
+/* __NR_copy_file_range 326 */
+/* __NR_preadv2 327 */
+/* __NR_pwritev2 328 */
+/* __NR_pkey_mprotect 329 */
+/* __NR_pkey_alloc 330 */
+/* __NR_pkey_free 331 */
+/* __NR_statx 332 */
+/* __NR_io_pgetevents 333 */
+/* __NR_rseq 334 */
 #endif // __linux__
 };
 
@@ -783,20 +783,21 @@ syscall_desc_t syscall_desc[SYSCALL_MAX] = {
  * returns:	0 on success, 1 on error
  */
 int syscall_set_pre(syscall_desc_t *desc,
-                    void (*pre)(THREADID, syscall_ctx_t *)) {
-  /* sanity checks */
-  if (unlikely((desc == NULL) | (pre == NULL)))
-    /* return with failure */
-    return 1;
+                    void (*pre)(THREADID, syscall_ctx_t *))
+{
+    /* sanity checks */
+    if (unlikely((desc == NULL) | (pre == NULL)))
+        /* return with failure */
+        return 1;
 
-  /* update the pre-syscall callback */
-  desc->pre = pre;
+    /* update the pre-syscall callback */
+    desc->pre = pre;
 
-  /* set the save arguments flag */
-  desc->save_args = 1;
+    /* set the save arguments flag */
+    desc->save_args = 1;
 
-  /* success */
-  return 0;
+    /* success */
+    return 0;
 }
 
 /*
@@ -808,20 +809,21 @@ int syscall_set_pre(syscall_desc_t *desc,
  * returns:	0 on success, 1 on error
  */
 int syscall_set_post(syscall_desc_t *desc,
-                     void (*post)(THREADID, syscall_ctx_t *)) {
-  /* sanity checks */
-  if (unlikely((desc == NULL) | (post == NULL)))
-    /* return with failure */
-    return 1;
+                     void (*post)(THREADID, syscall_ctx_t *))
+{
+    /* sanity checks */
+    if (unlikely((desc == NULL) | (post == NULL)))
+        /* return with failure */
+        return 1;
 
-  /* update the post-syscall callback */
-  desc->post = post;
+    /* update the post-syscall callback */
+    desc->post = post;
 
-  /* set the save arguments flag */
-  desc->save_args = 1;
+    /* set the save arguments flag */
+    desc->save_args = 1;
 
-  /* success */
-  return 0;
+    /* success */
+    return 0;
 }
 
 /*
@@ -831,22 +833,23 @@ int syscall_set_post(syscall_desc_t *desc,
  *
  * returns:     0 on success, 1 on error
  */
-int syscall_clr_pre(syscall_desc_t *desc) {
-  /* sanity check */
-  if (unlikely(desc == NULL))
-    /* return with failure */
-    return 1;
+int syscall_clr_pre(syscall_desc_t *desc)
+{
+    /* sanity check */
+    if (unlikely(desc == NULL))
+        /* return with failure */
+        return 1;
 
-  /* clear the pre-syscall callback */
-  desc->pre = NULL;
+    /* clear the pre-syscall callback */
+    desc->pre = NULL;
 
-  /* check if we need to clear the save arguments flag */
-  if (desc->post == NULL)
-    /* clear */
-    desc->save_args = 0;
+    /* check if we need to clear the save arguments flag */
+    if (desc->post == NULL)
+        /* clear */
+        desc->save_args = 0;
 
-  /* return with success */
-  return 0;
+    /* return with success */
+    return 0;
 }
 
 /*
@@ -856,375 +859,405 @@ int syscall_clr_pre(syscall_desc_t *desc) {
  *
  * returns:     0 on success, 1 on error
  */
-int syscall_clr_post(syscall_desc_t *desc) {
-  /* sanity check */
-  if (unlikely(desc == NULL))
-    /* return with failure */
-    return 1;
+int syscall_clr_post(syscall_desc_t *desc)
+{
+    /* sanity check */
+    if (unlikely(desc == NULL))
+        /* return with failure */
+        return 1;
 
-  /* clear the post-syscall callback */
-  desc->post = NULL;
+    /* clear the post-syscall callback */
+    desc->post = NULL;
 
-  /* check if we need to clear the save arguments flag */
-  if (desc->pre == NULL)
-    /* clear */
-    desc->save_args = 0;
+    /* check if we need to clear the save arguments flag */
+    if (desc->pre == NULL)
+        /* clear */
+        desc->save_args = 0;
 
-  /* return with success */
-  return 0;
+    /* return with success */
+    return 0;
 }
 
 #ifdef __linux__
 /* __NR_(p)read(64) and __NR_readlink post syscall hook */
-static void post_read_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* read()/readlink() was not successful; optimized branch */
-  if (unlikely((long)ctx->ret <= 0))
-    return;
+static void post_read_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* read()/readlink() was not successful; optimized branch */
+    if (unlikely((long)ctx->ret <= 0))
+        return;
 
-  /* clear the tag bits */
-  tagmap_clrn(ctx->arg[SYSCALL_ARG1], (size_t)ctx->ret);
+    /* clear the tag bits */
+    tagmap_clrn(ctx->arg[SYSCALL_ARG1], (size_t)ctx->ret);
 }
 
 /* __NR_getgroups post syscall_hook */
-static void post_getgroups_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* getgroups() was not successful */
-  if ((long)ctx->ret <= 0 || (gid_t *)ctx->arg[SYSCALL_ARG1] == NULL)
-    return;
+static void post_getgroups_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* getgroups() was not successful */
+    if ((long)ctx->ret <= 0 || (gid_t *)ctx->arg[SYSCALL_ARG1] == NULL)
+        return;
 
-  /* clear the tag bits */
-  tagmap_clrn(ctx->arg[SYSCALL_ARG1], (sizeof(gid_t) * (size_t)ctx->ret));
+    /* clear the tag bits */
+    tagmap_clrn(ctx->arg[SYSCALL_ARG1], (sizeof(gid_t) * (size_t)ctx->ret));
 }
 
 /* __NR_readlinkat post syscall hook */
-static void post_readlinkat_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* readlinkat() was not successful; optimized branch */
-  if (unlikely((long)ctx->ret <= 0))
-    return;
+static void post_readlinkat_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* readlinkat() was not successful; optimized branch */
+    if (unlikely((long)ctx->ret <= 0))
+        return;
 
-  /* clear the tag bits */
-  tagmap_clrn(ctx->arg[SYSCALL_ARG2], (size_t)ctx->ret);
+    /* clear the tag bits */
+    tagmap_clrn(ctx->arg[SYSCALL_ARG2], (size_t)ctx->ret);
 }
 
 /* __NR_mmap post syscall hook */
-static void post_mmap_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* the map offset */
-  size_t offset = (size_t)ctx->arg[SYSCALL_ARG1];
+static void post_mmap_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* the map offset */
+    size_t offset = (size_t)ctx->arg[SYSCALL_ARG1];
 
-  /* mmap() was not successful; optimized branch */
-  if (unlikely((void *)ctx->ret == MAP_FAILED))
-    return;
+    /* mmap() was not successful; optimized branch */
+    if (unlikely((void *)ctx->ret == MAP_FAILED))
+        return;
 
-  /* estimate offset; optimized branch */
-  if (unlikely(offset < PAGE_SZ))
-    offset = PAGE_SZ;
-  else
-    offset = offset + PAGE_SZ - (offset % PAGE_SZ);
+    /* estimate offset; optimized branch */
+    if (unlikely(offset < PAGE_SZ))
+        offset = PAGE_SZ;
+    else
+        offset = offset + PAGE_SZ - (offset % PAGE_SZ);
 
-  /* grow downwards; optimized branch */
-  if (unlikely((int)ctx->arg[SYSCALL_ARG3] & MAP_GROWSDOWN))
-    /* fix starting address */
-    ctx->ret = ctx->ret - offset;
+    /* grow downwards; optimized branch */
+    if (unlikely((int)ctx->arg[SYSCALL_ARG3] & MAP_GROWSDOWN))
+        /* fix starting address */
+        ctx->ret = ctx->ret - offset;
 
-  /* emulate the clear_tag() call */
-  tagmap_clrn((size_t)ctx->ret, offset);
+    /* emulate the clear_tag() call */
+    tagmap_clrn((size_t)ctx->ret, offset);
 }
 
 /* __NR_readv and __NR_preadv post syscall hook */
-static void post_readv_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* iterators */
-  int i;
-  struct iovec *iov;
+static void post_readv_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* iterators */
+    int i;
+    struct iovec *iov;
 
-  /* bytes copied in a iovec structure */
-  size_t iov_tot;
+    /* bytes copied in a iovec structure */
+    size_t iov_tot;
 
-  /* total bytes copied */
-  size_t tot = (size_t)ctx->ret;
+    /* total bytes copied */
+    size_t tot = (size_t)ctx->ret;
 
-  /* (p)readv() was not successful; optimized branch */
-  if (unlikely((long)ctx->ret <= 0))
-    return;
+    /* (p)readv() was not successful; optimized branch */
+    if (unlikely((long)ctx->ret <= 0))
+        return;
 
-  /* iterate the iovec structures */
-  for (i = 0; i < (int)ctx->arg[SYSCALL_ARG2] && tot > 0; i++) {
-    /* get an iovec  */
-    iov = ((struct iovec *)ctx->arg[SYSCALL_ARG1]) + i;
+    /* iterate the iovec structures */
+    for (i = 0; i < (int)ctx->arg[SYSCALL_ARG2] && tot > 0; i++)
+    {
+        /* get an iovec  */
+        iov = ((struct iovec *)ctx->arg[SYSCALL_ARG1]) + i;
 
-    /* get the length of the iovec */
-    iov_tot = (tot >= (size_t)iov->iov_len) ? (size_t)iov->iov_len : tot;
+        /* get the length of the iovec */
+        iov_tot = (tot >= (size_t)iov->iov_len) ? (size_t)iov->iov_len : tot;
 
-    /* clear the tag bits */
-    tagmap_clrn((size_t)iov->iov_base, iov_tot);
+        /* clear the tag bits */
+        tagmap_clrn((size_t)iov->iov_base, iov_tot);
 
-    /* housekeeping */
-    tot -= iov_tot;
-  }
+        /* housekeeping */
+        tot -= iov_tot;
+    }
 }
 
 /* __NR_epoll_pwait post syscall hook */
-static void post_epoll_wait_hook(THREADID tid, syscall_ctx_t *ctx) {
+static void post_epoll_wait_hook(THREADID tid, syscall_ctx_t *ctx)
+{
 
-  /* epoll_pwait() was not successful; optimized branch */
-  if (unlikely((long)ctx->ret <= 0))
-    return;
+    /* epoll_pwait() was not successful; optimized branch */
+    if (unlikely((long)ctx->ret <= 0))
+        return;
 
-  /* clear the tag bits */
-  tagmap_clrn(ctx->arg[SYSCALL_ARG1],
-              sizeof(struct epoll_event) * (size_t)ctx->ret);
+    /* clear the tag bits */
+    tagmap_clrn(ctx->arg[SYSCALL_ARG1],
+                sizeof(struct epoll_event) * (size_t)ctx->ret);
 }
 
 /* __NR_poll and __NR_ppoll post syscall hook */
-static void post_poll_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* iterators */
-  size_t i;
-  struct pollfd *pfd;
+static void post_poll_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* iterators */
+    size_t i;
+    struct pollfd *pfd;
 
-  /* (p)poll() was not successful; optimized branch */
-  if (unlikely((long)ctx->ret <= 0))
-    return;
+    /* (p)poll() was not successful; optimized branch */
+    if (unlikely((long)ctx->ret <= 0))
+        return;
 
-  /* iterate the pollfd structures */
-  for (i = 0; i < (size_t)ctx->arg[SYSCALL_ARG1]; i++) {
-    /* get pollfd */
-    pfd = ((struct pollfd *)ctx->arg[SYSCALL_ARG0]) + i;
+    /* iterate the pollfd structures */
+    for (i = 0; i < (size_t)ctx->arg[SYSCALL_ARG1]; i++)
+    {
+        /* get pollfd */
+        pfd = ((struct pollfd *)ctx->arg[SYSCALL_ARG0]) + i;
 
-    /* clear the tag bits */
-    tagmap_clrn((size_t)&pfd->revents, sizeof(short));
-  }
+        /* clear the tag bits */
+        tagmap_clrn((size_t)&pfd->revents, sizeof(short));
+    }
 }
 
 /* __NR_mq_timedreceive post syscall hook */
-static void post_mq_timedreceive_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* mq_timedreceive() was not successful; optimized branch */
-  if (unlikely((long)ctx->ret <= 0))
-    return;
+static void post_mq_timedreceive_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* mq_timedreceive() was not successful; optimized branch */
+    if (unlikely((long)ctx->ret <= 0))
+        return;
 
-  /* clear the tag bits */
-  tagmap_clrn(ctx->arg[SYSCALL_ARG1], (size_t)ctx->ret);
-
-  /* priority argument is supplied */
-  if ((size_t *)ctx->arg[SYSCALL_ARG3] != NULL)
     /* clear the tag bits */
-    tagmap_clrn(ctx->arg[SYSCALL_ARG3], sizeof(size_t));
+    tagmap_clrn(ctx->arg[SYSCALL_ARG1], (size_t)ctx->ret);
+
+    /* priority argument is supplied */
+    if ((size_t *)ctx->arg[SYSCALL_ARG3] != NULL)
+        /* clear the tag bits */
+        tagmap_clrn(ctx->arg[SYSCALL_ARG3], sizeof(size_t));
 }
 
 /* __NR_get_mempolicy */
-static void post_get_mempolicy_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* get_mempolicy() was not successful; optimized branch */
-  if (unlikely((long)ctx->ret < 0))
-    return;
+static void post_get_mempolicy_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* get_mempolicy() was not successful; optimized branch */
+    if (unlikely((long)ctx->ret < 0))
+        return;
 
-  /* flags is zero */
-  if ((unsigned long)ctx->arg[SYSCALL_ARG4] == 0) {
-    /* clear the tag bits */
-    tagmap_clrn(ctx->arg[SYSCALL_ARG0], sizeof(int));
-    tagmap_clrn(ctx->arg[SYSCALL_ARG1], sizeof(unsigned long));
-    /* done */
-    return;
-  }
+    /* flags is zero */
+    if ((unsigned long)ctx->arg[SYSCALL_ARG4] == 0)
+    {
+        /* clear the tag bits */
+        tagmap_clrn(ctx->arg[SYSCALL_ARG0], sizeof(int));
+        tagmap_clrn(ctx->arg[SYSCALL_ARG1], sizeof(unsigned long));
+        /* done */
+        return;
+    }
 
-  /* MPOL_F_MEMS_ALLOWED is set on flags */
-  if (((unsigned long)ctx->arg[SYSCALL_ARG4] & MPOL_F_MEMS_ALLOWED) != 0) {
-    /* clear the tag bits */
-    tagmap_clrn(ctx->arg[SYSCALL_ARG1], sizeof(unsigned long));
-    /* done */
-    return;
-  }
+    /* MPOL_F_MEMS_ALLOWED is set on flags */
+    if (((unsigned long)ctx->arg[SYSCALL_ARG4] & MPOL_F_MEMS_ALLOWED) != 0)
+    {
+        /* clear the tag bits */
+        tagmap_clrn(ctx->arg[SYSCALL_ARG1], sizeof(unsigned long));
+        /* done */
+        return;
+    }
 
-  /* MPOL_F_ADDR is set on flags */
-  if (((unsigned long)ctx->arg[SYSCALL_ARG4] & MPOL_F_ADDR) != 0 &&
-      ((unsigned long)ctx->arg[SYSCALL_ARG4] & MPOL_F_NODE) == 0) {
-    /* mode is provided */
-    if ((int *)ctx->arg[SYSCALL_ARG0] != NULL)
-      /* clear the tag bits */
-      tagmap_clrn(ctx->arg[SYSCALL_ARG0], sizeof(int));
+    /* MPOL_F_ADDR is set on flags */
+    if (((unsigned long)ctx->arg[SYSCALL_ARG4] & MPOL_F_ADDR) != 0 &&
+        ((unsigned long)ctx->arg[SYSCALL_ARG4] & MPOL_F_NODE) == 0)
+    {
+        /* mode is provided */
+        if ((int *)ctx->arg[SYSCALL_ARG0] != NULL)
+            /* clear the tag bits */
+            tagmap_clrn(ctx->arg[SYSCALL_ARG0], sizeof(int));
 
-    /* nodemask is provided */
-    if ((unsigned long *)ctx->arg[SYSCALL_ARG1] != NULL)
-      /* clear the tag bits */
-      tagmap_clrn(ctx->arg[SYSCALL_ARG1], sizeof(unsigned long));
-    /* done */
-    return;
-  }
+        /* nodemask is provided */
+        if ((unsigned long *)ctx->arg[SYSCALL_ARG1] != NULL)
+            /* clear the tag bits */
+            tagmap_clrn(ctx->arg[SYSCALL_ARG1], sizeof(unsigned long));
+        /* done */
+        return;
+    }
 
-  /* MPOL_F_NODE & MPOL_F_ADDR is set on flags */
-  if (((unsigned long)ctx->arg[SYSCALL_ARG4] & MPOL_F_ADDR) != 0 &&
-      ((unsigned long)ctx->arg[SYSCALL_ARG4] & MPOL_F_NODE) != 0) {
-    /* clear the tag bits */
-    tagmap_clrn(ctx->arg[SYSCALL_ARG0], sizeof(int));
-    /* done */
-    return;
-  }
+    /* MPOL_F_NODE & MPOL_F_ADDR is set on flags */
+    if (((unsigned long)ctx->arg[SYSCALL_ARG4] & MPOL_F_ADDR) != 0 &&
+        ((unsigned long)ctx->arg[SYSCALL_ARG4] & MPOL_F_NODE) != 0)
+    {
+        /* clear the tag bits */
+        tagmap_clrn(ctx->arg[SYSCALL_ARG0], sizeof(int));
+        /* done */
+        return;
+    }
 
-  /* MPOL_F_NODE is set on flags */
-  if (((unsigned long)ctx->arg[SYSCALL_ARG4] & MPOL_F_NODE) != 0) {
-    /* clear the tag bits */
-    tagmap_clrn(ctx->arg[SYSCALL_ARG0], sizeof(int));
-    /* done */
-    return;
-  }
+    /* MPOL_F_NODE is set on flags */
+    if (((unsigned long)ctx->arg[SYSCALL_ARG4] & MPOL_F_NODE) != 0)
+    {
+        /* clear the tag bits */
+        tagmap_clrn(ctx->arg[SYSCALL_ARG0], sizeof(int));
+        /* done */
+        return;
+    }
 }
 
 /* __NR_lookup_dcookie post syscall hook */
-static void post_lookup_dcookie_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* lookup_dcookie() was not successful; optimized branch */
-  if (unlikely((long)ctx->ret <= 0))
-    return;
+static void post_lookup_dcookie_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* lookup_dcookie() was not successful; optimized branch */
+    if (unlikely((long)ctx->ret <= 0))
+        return;
 
-  /* clear the tag bits */
-  tagmap_clrn(ctx->arg[SYSCALL_ARG1], (size_t)ctx->ret);
+    /* clear the tag bits */
+    tagmap_clrn(ctx->arg[SYSCALL_ARG1], (size_t)ctx->ret);
 }
 
 /* __NR_io_getevents post syscall hook */
-static void post_io_getevents_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* io_getevents() was not successful; optimized branch */
-  if (unlikely((long)ctx->ret <= 0))
-    return;
+static void post_io_getevents_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* io_getevents() was not successful; optimized branch */
+    if (unlikely((long)ctx->ret <= 0))
+        return;
 
-  /* clear the tag bits */
-  tagmap_clrn(ctx->arg[SYSCALL_ARG3],
-              sizeof(struct io_event) * (size_t)ctx->ret);
-
-  /* timespec is specified */
-  if ((struct timespec *)ctx->arg[SYSCALL_ARG4] != NULL)
     /* clear the tag bits */
-    tagmap_clrn(ctx->arg[SYSCALL_ARG4], sizeof(struct timespec));
+    tagmap_clrn(ctx->arg[SYSCALL_ARG3],
+                sizeof(struct io_event) * (size_t)ctx->ret);
+
+    /* timespec is specified */
+    if ((struct timespec *)ctx->arg[SYSCALL_ARG4] != NULL)
+        /* clear the tag bits */
+        tagmap_clrn(ctx->arg[SYSCALL_ARG4], sizeof(struct timespec));
 }
 
 /* __NR_(f, l)listxattr post syscall hook */
-static void post_listxattr_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* *listxattr() was not successful; optimized branch */
-  if ((long)ctx->ret <= 0 || (void *)ctx->arg[SYSCALL_ARG1] == NULL)
-    return;
+static void post_listxattr_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* *listxattr() was not successful; optimized branch */
+    if ((long)ctx->ret <= 0 || (void *)ctx->arg[SYSCALL_ARG1] == NULL)
+        return;
 
-  /* clear the tag bits */
-  tagmap_clrn(ctx->arg[SYSCALL_ARG1], (size_t)ctx->ret);
+    /* clear the tag bits */
+    tagmap_clrn(ctx->arg[SYSCALL_ARG1], (size_t)ctx->ret);
 }
 
 /* __NR_(f, l)getxattr post syscall hook */
-static void post_getxattr_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* *getxattr() was not successful; optimized branch */
-  if ((long)ctx->ret <= 0 || (void *)ctx->arg[SYSCALL_ARG2] == NULL)
-    return;
+static void post_getxattr_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* *getxattr() was not successful; optimized branch */
+    if ((long)ctx->ret <= 0 || (void *)ctx->arg[SYSCALL_ARG2] == NULL)
+        return;
 
-  /* clear the tag bits */
-  tagmap_clrn(ctx->arg[SYSCALL_ARG2], (size_t)ctx->ret);
+    /* clear the tag bits */
+    tagmap_clrn(ctx->arg[SYSCALL_ARG2], (size_t)ctx->ret);
 }
 
 /* __NR_getdents post syscall hook */
-static void post_getdents_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* getdents() was not successful; optimized branch */
-  if (unlikely((long)ctx->ret <= 0))
-    return;
+static void post_getdents_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* getdents() was not successful; optimized branch */
+    if (unlikely((long)ctx->ret <= 0))
+        return;
 
-  /* clear the tag bits */
-  tagmap_clrn(ctx->arg[SYSCALL_ARG1], (size_t)ctx->ret);
+    /* clear the tag bits */
+    tagmap_clrn(ctx->arg[SYSCALL_ARG1], (size_t)ctx->ret);
 }
 
 /* __NR_mincore post syscall hook */
-static void post_mincore_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* mincore() was not successful; optimized branch */
-  if (unlikely((long)ctx->ret < 0))
-    return;
+static void post_mincore_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* mincore() was not successful; optimized branch */
+    if (unlikely((long)ctx->ret < 0))
+        return;
 
-  /* clear the tag bits */
-  tagmap_clrn(ctx->arg[SYSCALL_ARG2],
-              (((size_t)ctx->arg[SYSCALL_ARG1] + PAGE_SZ - 1) / PAGE_SZ));
+    /* clear the tag bits */
+    tagmap_clrn(ctx->arg[SYSCALL_ARG2],
+                (((size_t)ctx->arg[SYSCALL_ARG1] + PAGE_SZ - 1) / PAGE_SZ));
 }
 
 /* __NR_getcwd post syscall hook */
-static void post_getcwd_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* getcwd() was not successful; optimized branch */
-  if (unlikely((long)ctx->ret <= 0))
-    return;
+static void post_getcwd_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* getcwd() was not successful; optimized branch */
+    if (unlikely((long)ctx->ret <= 0))
+        return;
 
-  /* clear the tag bits */
-  tagmap_clrn(ctx->arg[SYSCALL_ARG0], (size_t)ctx->ret);
+    /* clear the tag bits */
+    tagmap_clrn(ctx->arg[SYSCALL_ARG0], (size_t)ctx->ret);
 }
 
 /* __NR_rt_sigpending post syscall hook */
-static void post_rt_sigpending_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* rt_sigpending() was not successful; optimized branch */
-  if (unlikely((long)ctx->ret < 0))
-    return;
+static void post_rt_sigpending_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* rt_sigpending() was not successful; optimized branch */
+    if (unlikely((long)ctx->ret < 0))
+        return;
 
-  /* clear the tag bits */
-  tagmap_clrn(ctx->arg[SYSCALL_ARG0], (size_t)ctx->arg[SYSCALL_ARG1]);
+    /* clear the tag bits */
+    tagmap_clrn(ctx->arg[SYSCALL_ARG0], (size_t)ctx->arg[SYSCALL_ARG1]);
 }
 
 /* __NR_quotactl post syscall hook */
-static void post_quotactl_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* offset */
-  size_t off;
+static void post_quotactl_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* offset */
+    size_t off;
 
-  /* quotactl() was not successful; optimized branch */
-  if (unlikely((long)ctx->ret < 0))
-    return;
+    /* quotactl() was not successful; optimized branch */
+    if (unlikely((long)ctx->ret < 0))
+        return;
 
-  /* different offset ranges */
-  switch ((int)ctx->arg[SYSCALL_ARG0]) {
-  case Q_GETFMT:
-    off = sizeof(__u32);
-    break;
-  case Q_GETINFO:
-    off = sizeof(struct if_dqinfo);
-    break;
-  case Q_GETQUOTA:
-    off = sizeof(struct if_dqblk);
-    break;
-  case Q_XGETQSTAT:
-    off = sizeof(struct fs_quota_stat);
-    break;
-  case Q_XGETQUOTA:
-    off = sizeof(struct fs_disk_quota);
-    break;
-  default:
-    /* nothing to do */
-    return;
-  }
+    /* different offset ranges */
+    switch ((int)ctx->arg[SYSCALL_ARG0])
+    {
+    case Q_GETFMT:
+        off = sizeof(__u32);
+        break;
+    case Q_GETINFO:
+        off = sizeof(struct if_dqinfo);
+        break;
+    case Q_GETQUOTA:
+        off = sizeof(struct if_dqblk);
+        break;
+    case Q_XGETQSTAT:
+        off = sizeof(struct fs_quota_stat);
+        break;
+    case Q_XGETQUOTA:
+        off = sizeof(struct fs_disk_quota);
+        break;
+    default:
+        /* nothing to do */
+        return;
+    }
 
-  /* clear the tag bits */
-  tagmap_clrn(ctx->arg[SYSCALL_ARG3], off);
+    /* clear the tag bits */
+    tagmap_clrn(ctx->arg[SYSCALL_ARG3], off);
 }
 
 /* __NR_modify_ldt post syscall hook */
-static void post_modify_ldt_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* modify_ldt() was not successful; optimized branch */
-  if (unlikely((long)ctx->ret <= 0))
-    return;
+static void post_modify_ldt_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* modify_ldt() was not successful; optimized branch */
+    if (unlikely((long)ctx->ret <= 0))
+        return;
 
-  /* clear the tag bits */
-  tagmap_clrn(ctx->arg[SYSCALL_ARG1], (size_t)ctx->ret);
+    /* clear the tag bits */
+    tagmap_clrn(ctx->arg[SYSCALL_ARG1], (size_t)ctx->ret);
 }
 
 /* __NR_fcntl post syscall hook */
-static void post_fcntl_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* fcntl() was not successful; optimized branch */
-  if (unlikely((long)ctx->ret < 0))
-    return;
+static void post_fcntl_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* fcntl() was not successful; optimized branch */
+    if (unlikely((long)ctx->ret < 0))
+        return;
 
-  /* differentiate based on the cmd argument */
-  switch ((int)ctx->arg[SYSCALL_ARG1]) {
-  /* F_GETLK */
-  case F_GETLK:
-    /* clear the tag bits */
-    tagmap_clrn(ctx->arg[SYSCALL_ARG2], sizeof(struct flock));
-    break;
-  /* F_GETLK64 */
-  /*
+    /* differentiate based on the cmd argument */
+    switch ((int)ctx->arg[SYSCALL_ARG1])
+    {
+    /* F_GETLK */
+    case F_GETLK:
+        /* clear the tag bits */
+        tagmap_clrn(ctx->arg[SYSCALL_ARG2], sizeof(struct flock));
+        break;
+    /* F_GETLK64 */
+    /*
   case F_GETLK64:
     tagmap_clrn(ctx->arg[SYSCALL_ARG2], sizeof(struct flock64));
     break;
   */
-  /* F_GETOWN_EX */
-  case F_GETOWN_EX:
-    /* clear the tag bits */
-    tagmap_clrn(ctx->arg[SYSCALL_ARG2], sizeof(struct f_owner_ex));
-    break;
-  default:
-    /* nothing to do */
-    break;
-  }
+    /* F_GETOWN_EX */
+    case F_GETOWN_EX:
+        /* clear the tag bits */
+        tagmap_clrn(ctx->arg[SYSCALL_ARG2], sizeof(struct f_owner_ex));
+        break;
+    default:
+        /* nothing to do */
+        break;
+    }
 }
 
 /*
@@ -1233,319 +1266,344 @@ static void post_fcntl_hook(THREADID tid, syscall_ctx_t *ctx) {
  * NOTE: this is not related to syslog(3)
  * see klogctl(3)/syslog(2)
  */
-static void post_syslog_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* syslog() was not successful; optimized branch */
-  if (unlikely((long)ctx->ret <= 0))
-    return;
+static void post_syslog_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* syslog() was not successful; optimized branch */
+    if (unlikely((long)ctx->ret <= 0))
+        return;
 
-  /* differentiate based on the type */
-  switch ((int)ctx->arg[SYSCALL_ARG0]) {
-  case 2:
-  case 3:
-  case 4:
-    /* clear the tag bits */
-    tagmap_clrn(ctx->arg[SYSCALL_ARG1], (size_t)ctx->ret);
-    break;
-  default:
-    /* nothing to do */
-    return;
-  }
+    /* differentiate based on the type */
+    switch ((int)ctx->arg[SYSCALL_ARG0])
+    {
+    case 2:
+    case 3:
+    case 4:
+        /* clear the tag bits */
+        tagmap_clrn(ctx->arg[SYSCALL_ARG1], (size_t)ctx->ret);
+        break;
+    default:
+        /* nothing to do */
+        return;
+    }
 }
 
 /* __NR__sysctl post syscall hook */
-static void post__sysctl_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* _sysctl arguments */
-  struct __sysctl_args *sa;
+static void post__sysctl_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* _sysctl arguments */
+    struct __sysctl_args *sa;
 
-  /* _sysctl() was not successful; optimized branch */
-  if (unlikely((long)ctx->ret < 0))
-    return;
+    /* _sysctl() was not successful; optimized branch */
+    if (unlikely((long)ctx->ret < 0))
+        return;
 
-  /* _sysctl arguments */
-  sa = (struct __sysctl_args *)ctx->arg[SYSCALL_ARG0];
-
-  /* clear the tag bits */
-  tagmap_clrn((size_t)sa->newval, sa->newlen);
-
-  /* save old value is specified */
-  if (sa->oldval != NULL) {
-    /* clear the tag bits */
-    tagmap_clrn((size_t)sa->oldval, *sa->oldlenp);
+    /* _sysctl arguments */
+    sa = (struct __sysctl_args *)ctx->arg[SYSCALL_ARG0];
 
     /* clear the tag bits */
-    tagmap_clrn((size_t)sa->oldlenp, sizeof(size_t));
-  }
+    tagmap_clrn((size_t)sa->newval, sa->newlen);
+
+    /* save old value is specified */
+    if (sa->oldval != NULL)
+    {
+        /* clear the tag bits */
+        tagmap_clrn((size_t)sa->oldval, *sa->oldlenp);
+
+        /* clear the tag bits */
+        tagmap_clrn((size_t)sa->oldlenp, sizeof(size_t));
+    }
 }
 
 /* __NR_recvmmsg post syscall hook */
-static void post_recvmmsg_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* message headers; recvmsg(2) recvmmsg(2) */
-  struct mmsghdr *msg;
-  struct msghdr *m;
+static void post_recvmmsg_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* message headers; recvmsg(2) recvmmsg(2) */
+    struct mmsghdr *msg;
+    struct msghdr *m;
 
-  /* iov bytes copied; recvmsg(2) */
-  size_t iov_tot;
+    /* iov bytes copied; recvmsg(2) */
+    size_t iov_tot;
 
-  /* iterators */
-  size_t i, j;
-  struct iovec *iov;
+    /* iterators */
+    size_t i, j;
+    struct iovec *iov;
 
-  /* total bytes received */
-  size_t tot;
+    /* total bytes received */
+    size_t tot;
 
-  /* recvmmsg() was not successful; optimized branch */
-  if (unlikely((long)ctx->ret < 0))
-    return;
+    /* recvmmsg() was not successful; optimized branch */
+    if (unlikely((long)ctx->ret < 0))
+        return;
 
-  /* iterate the mmsghdr structures */
-  for (i = 0; i < (size_t)ctx->ret; i++) {
-    /* get the next mmsghdr structure */
-    msg = ((struct mmsghdr *)ctx->arg[SYSCALL_ARG1]) + i;
+    /* iterate the mmsghdr structures */
+    for (i = 0; i < (size_t)ctx->ret; i++)
+    {
+        /* get the next mmsghdr structure */
+        msg = ((struct mmsghdr *)ctx->arg[SYSCALL_ARG1]) + i;
+
+        /* extract the message header */
+        m = &msg->msg_hdr;
+
+        /* source address specified */
+        if (m->msg_name != NULL)
+        {
+            /* clear the tag bits */
+            tagmap_clrn((size_t)m->msg_name, m->msg_namelen);
+
+            /* clear the tag bits */
+            tagmap_clrn((size_t)&m->msg_namelen, sizeof(int));
+        }
+
+        /* ancillary data specified */
+        if (m->msg_control != NULL)
+        {
+            /* clear the tag bits */
+            tagmap_clrn((size_t)m->msg_control, m->msg_controllen);
+
+            /* clear the tag bits */
+            tagmap_clrn((size_t)&m->msg_controllen, sizeof(int));
+        }
+
+        /* flags; clear the tag bits */
+        tagmap_clrn((size_t)&m->msg_flags, sizeof(int));
+
+        /* total bytes received; clear the tag bits */
+        tot = (size_t)msg->msg_len;
+        tagmap_clrn((size_t)&msg->msg_len, sizeof(unsigned));
+
+        /* iterate the iovec structures */
+        for (j = 0; j < m->msg_iovlen && tot > 0; j++)
+        {
+            /* get the next I/O vector */
+            iov = &m->msg_iov[j];
+
+            /* get the length of the iovec */
+            iov_tot = (tot > (size_t)iov->iov_len) ? (size_t)iov->iov_len : tot;
+
+            /* clear the tag bits */
+            tagmap_clrn((size_t)iov->iov_base, iov_tot);
+
+            /* housekeeping */
+            tot -= iov_tot;
+        }
+    }
+
+    /* timespec structure specified */
+    if ((struct timespec *)ctx->arg[SYSCALL_ARG4] != NULL)
+        ;
+    /* clear the tag bits */
+    tagmap_clrn(ctx->arg[SYSCALL_ARG4], sizeof(struct timespec));
+}
+
+static void post_msgctl_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    if (unlikely((long)ctx->ret < 0))
+        return;
+
+    /* fix the cmd parameter */
+    // ctx->arg[SYSCALL_ARG2] -= IPC_FIX;
+
+    /* differentiate based on the cmd */
+    switch ((int)ctx->arg[SYSCALL_ARG1])
+    {
+    case IPC_STAT:
+    case MSG_STAT:
+        // case MSG_STAT_ANY:
+        /* clear the tag bits */
+        tagmap_clrn(ctx->arg[SYSCALL_ARG2], sizeof(struct msqid_ds));
+        break;
+    case IPC_INFO:
+    case MSG_INFO:
+        /* clear the tag bits */
+        tagmap_clrn(ctx->arg[SYSCALL_ARG2], sizeof(struct msginfo));
+        break;
+    default:
+        /* nothing to do */
+        return;
+    }
+}
+
+static void post_shmctl_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    if (unlikely((long)ctx->ret < 0))
+        return;
+
+    /* fix the cmd parameter */
+    // FIXME:
+    // ctx->arg[SYSCALL_ARG2] -= IPC_FIX;
+
+    /* differentiate based on the cmd */
+    switch ((int)ctx->arg[SYSCALL_ARG1])
+    {
+    case IPC_STAT:
+    case SHM_STAT:
+        // case SHM_STAT_ANY:
+        /* clear the tag bits */
+        tagmap_clrn(ctx->arg[SYSCALL_ARG2], sizeof(struct shmid_ds));
+        break;
+    case IPC_INFO:
+    case SHM_INFO:
+        /* clear the tag bits */
+        tagmap_clrn(ctx->arg[SYSCALL_ARG2], sizeof(struct shminfo));
+        break;
+    default:
+        /* nothing to do */
+        return;
+    }
+}
+
+static void post_semctl_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* semctl() was not successful; optimized branch */
+    if (unlikely((long)ctx->ret < 0))
+        return;
+
+    /* get the semun structure */
+    union semun *su;
+    su = (union semun *)ctx->arg[SYSCALL_ARG4];
+
+    /* fix the cmd parameter */
+    // ctx->arg[SYSCALL_ARG2] -= IPC_FIX;
+
+    /* differentiate based on the cmd */
+    switch ((int)ctx->arg[SYSCALL_ARG2])
+    {
+    case IPC_STAT:
+    case SEM_STAT:
+        // case SEM_STAT_ANY:
+        /* clear the tag bits */
+        tagmap_clrn((size_t)su->buf, sizeof(struct semid_ds));
+        break;
+    case IPC_INFO:
+    case SEM_INFO:
+        /* clear the tag bits */
+        tagmap_clrn((size_t)su->buf, sizeof(struct seminfo));
+        break;
+    default:
+        /* nothing to do */
+        return;
+    }
+}
+
+static void post_msgrcv_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    if (unlikely((long)ctx->ret <= 0))
+        return;
+    /* clear the tag bits */
+    tagmap_clrn(ctx->arg[SYSCALL_ARG1], (size_t)ctx->ret + sizeof(long));
+}
+
+static void post_accept_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* not successful; optimized branch */
+    if (unlikely((long)ctx->ret < 0))
+        return;
+
+    /* addr argument is provided */
+    if ((void *)ctx->arg[SYSCALL_ARG1] != NULL)
+    {
+        /* clear the tag bits */
+        tagmap_clrn(ctx->arg[SYSCALL_ARG1], *((int *)ctx->arg[SYSCALL_ARG2]));
+
+        /* clear the tag bits */
+        tagmap_clrn(ctx->arg[SYSCALL_ARG2], sizeof(int));
+    }
+}
+
+static void post_recvfrom_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* not successful; optimized branch */
+    if (unlikely((long)ctx->ret <= 0))
+        return;
+
+    /* clear the tag bits */
+    tagmap_clrn(ctx->arg[SYSCALL_ARG1], (size_t)ctx->ret);
+
+    /* sockaddr argument is specified */
+    if ((void *)ctx->arg[SYSCALL_ARG4] != NULL)
+    {
+        /* clear the tag bits */
+        tagmap_clrn(ctx->arg[SYSCALL_ARG4], *((int *)ctx->arg[SYSCALL_ARG5]));
+
+        /* clear the tag bits */
+        tagmap_clrn(ctx->arg[SYSCALL_ARG5], sizeof(int));
+    }
+}
+
+static void post_getsockopt_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* not successful; optimized branch */
+    if (unlikely((long)ctx->ret < 0))
+        return;
+
+    /* clear the tag bits */
+    tagmap_clrn(ctx->arg[SYSCALL_ARG3], *((int *)ctx->arg[SYSCALL_ARG4]));
+
+    /* clear the tag bits */
+    tagmap_clrn(ctx->arg[SYSCALL_ARG4], sizeof(int));
+}
+
+static void post_recvmsg_hook(THREADID tid, syscall_ctx_t *ctx)
+{
+    /* not successful; optimized branch */
+    if (unlikely((long)ctx->ret <= 0))
+        return;
+    /* message header; recvmsg(2) */
+    struct msghdr *msg;
+
+    /* iov bytes copied; recvmsg(2) */
+    size_t iov_tot;
+
+    /* iterators */
+    size_t i;
+    struct iovec *iov;
+
+    /* total bytes received */
+    size_t tot;
 
     /* extract the message header */
-    m = &msg->msg_hdr;
+    msg = (struct msghdr *)ctx->arg[SYSCALL_ARG1];
 
     /* source address specified */
-    if (m->msg_name != NULL) {
-      /* clear the tag bits */
-      tagmap_clrn((size_t)m->msg_name, m->msg_namelen);
+    if (msg->msg_name != NULL)
+    {
+        /* clear the tag bits */
+        tagmap_clrn((size_t)msg->msg_name, msg->msg_namelen);
 
-      /* clear the tag bits */
-      tagmap_clrn((size_t)&m->msg_namelen, sizeof(int));
+        /* clear the tag bits */
+        tagmap_clrn((size_t)&msg->msg_namelen, sizeof(int));
     }
 
     /* ancillary data specified */
-    if (m->msg_control != NULL) {
-      /* clear the tag bits */
-      tagmap_clrn((size_t)m->msg_control, m->msg_controllen);
+    if (msg->msg_control != NULL)
+    {
+        /* clear the tag bits */
+        tagmap_clrn((size_t)msg->msg_control, msg->msg_controllen);
 
-      /* clear the tag bits */
-      tagmap_clrn((size_t)&m->msg_controllen, sizeof(int));
+        /* clear the tag bits */
+        tagmap_clrn((size_t)&msg->msg_controllen, sizeof(int));
     }
 
     /* flags; clear the tag bits */
-    tagmap_clrn((size_t)&m->msg_flags, sizeof(int));
+    tagmap_clrn((size_t)&msg->msg_flags, sizeof(int));
 
-    /* total bytes received; clear the tag bits */
-    tot = (size_t)msg->msg_len;
-    tagmap_clrn((size_t)&msg->msg_len, sizeof(unsigned));
+    /* total bytes received */
+    tot = (size_t)ctx->ret;
 
     /* iterate the iovec structures */
-    for (j = 0; j < m->msg_iovlen && tot > 0; j++) {
-      /* get the next I/O vector */
-      iov = &m->msg_iov[j];
+    for (i = 0; i < msg->msg_iovlen && tot > 0; i++)
+    {
+        /* get the next I/O vector */
+        iov = &msg->msg_iov[i];
 
-      /* get the length of the iovec */
-      iov_tot = (tot > (size_t)iov->iov_len) ? (size_t)iov->iov_len : tot;
+        /* get the length of the iovec */
+        iov_tot = (tot > (size_t)iov->iov_len) ? (size_t)iov->iov_len : tot;
 
-      /* clear the tag bits */
-      tagmap_clrn((size_t)iov->iov_base, iov_tot);
+        /* clear the tag bits */
+        tagmap_clrn((size_t)iov->iov_base, iov_tot);
 
-      /* housekeeping */
-      tot -= iov_tot;
+        /* housekeeping */
+        tot -= iov_tot;
     }
-  }
-
-  /* timespec structure specified */
-  if ((struct timespec *)ctx->arg[SYSCALL_ARG4] != NULL)
-    ;
-  /* clear the tag bits */
-  tagmap_clrn(ctx->arg[SYSCALL_ARG4], sizeof(struct timespec));
-}
-
-static void post_msgctl_hook(THREADID tid, syscall_ctx_t *ctx) {
-  if (unlikely((long)ctx->ret < 0))
-    return;
-
-  /* fix the cmd parameter */
-  // ctx->arg[SYSCALL_ARG2] -= IPC_FIX;
-
-  /* differentiate based on the cmd */
-  switch ((int)ctx->arg[SYSCALL_ARG1]) {
-  case IPC_STAT:
-  case MSG_STAT:
-    // case MSG_STAT_ANY:
-    /* clear the tag bits */
-    tagmap_clrn(ctx->arg[SYSCALL_ARG2], sizeof(struct msqid_ds));
-    break;
-  case IPC_INFO:
-  case MSG_INFO:
-    /* clear the tag bits */
-    tagmap_clrn(ctx->arg[SYSCALL_ARG2], sizeof(struct msginfo));
-    break;
-  default:
-    /* nothing to do */
-    return;
-  }
-}
-
-static void post_shmctl_hook(THREADID tid, syscall_ctx_t *ctx) {
-  if (unlikely((long)ctx->ret < 0))
-    return;
-
-  /* fix the cmd parameter */
-  // FIXME:
-  // ctx->arg[SYSCALL_ARG2] -= IPC_FIX;
-
-  /* differentiate based on the cmd */
-  switch ((int)ctx->arg[SYSCALL_ARG1]) {
-  case IPC_STAT:
-  case SHM_STAT:
-    // case SHM_STAT_ANY:
-    /* clear the tag bits */
-    tagmap_clrn(ctx->arg[SYSCALL_ARG2], sizeof(struct shmid_ds));
-    break;
-  case IPC_INFO:
-  case SHM_INFO:
-    /* clear the tag bits */
-    tagmap_clrn(ctx->arg[SYSCALL_ARG2], sizeof(struct shminfo));
-    break;
-  default:
-    /* nothing to do */
-    return;
-  }
-}
-
-static void post_semctl_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* semctl() was not successful; optimized branch */
-  if (unlikely((long)ctx->ret < 0))
-    return;
-
-  /* get the semun structure */
-  union semun *su;
-  su = (union semun *)ctx->arg[SYSCALL_ARG4];
-
-  /* fix the cmd parameter */
-  // ctx->arg[SYSCALL_ARG2] -= IPC_FIX;
-
-  /* differentiate based on the cmd */
-  switch ((int)ctx->arg[SYSCALL_ARG2]) {
-  case IPC_STAT:
-  case SEM_STAT:
-    // case SEM_STAT_ANY:
-    /* clear the tag bits */
-    tagmap_clrn((size_t)su->buf, sizeof(struct semid_ds));
-    break;
-  case IPC_INFO:
-  case SEM_INFO:
-    /* clear the tag bits */
-    tagmap_clrn((size_t)su->buf, sizeof(struct seminfo));
-    break;
-  default:
-    /* nothing to do */
-    return;
-  }
-}
-
-static void post_msgrcv_hook(THREADID tid, syscall_ctx_t *ctx) {
-  if (unlikely((long)ctx->ret <= 0))
-    return;
-  /* clear the tag bits */
-  tagmap_clrn(ctx->arg[SYSCALL_ARG1], (size_t)ctx->ret + sizeof(long));
-}
-
-static void post_accept_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* not successful; optimized branch */
-  if (unlikely((long)ctx->ret < 0))
-    return;
-
-  /* addr argument is provided */
-  if ((void *)ctx->arg[SYSCALL_ARG1] != NULL) {
-    /* clear the tag bits */
-    tagmap_clrn(ctx->arg[SYSCALL_ARG1], *((int *)ctx->arg[SYSCALL_ARG2]));
-
-    /* clear the tag bits */
-    tagmap_clrn(ctx->arg[SYSCALL_ARG2], sizeof(int));
-  }
-}
-
-static void post_recvfrom_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* not successful; optimized branch */
-  if (unlikely((long)ctx->ret <= 0))
-    return;
-
-  /* clear the tag bits */
-  tagmap_clrn(ctx->arg[SYSCALL_ARG1], (size_t)ctx->ret);
-
-  /* sockaddr argument is specified */
-  if ((void *)ctx->arg[SYSCALL_ARG4] != NULL) {
-    /* clear the tag bits */
-    tagmap_clrn(ctx->arg[SYSCALL_ARG4], *((int *)ctx->arg[SYSCALL_ARG5]));
-
-    /* clear the tag bits */
-    tagmap_clrn(ctx->arg[SYSCALL_ARG5], sizeof(int));
-  }
-}
-
-static void post_getsockopt_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* not successful; optimized branch */
-  if (unlikely((long)ctx->ret < 0))
-    return;
-
-  /* clear the tag bits */
-  tagmap_clrn(ctx->arg[SYSCALL_ARG3], *((int *)ctx->arg[SYSCALL_ARG4]));
-
-  /* clear the tag bits */
-  tagmap_clrn(ctx->arg[SYSCALL_ARG4], sizeof(int));
-}
-
-static void post_recvmsg_hook(THREADID tid, syscall_ctx_t *ctx) {
-  /* not successful; optimized branch */
-  if (unlikely((long)ctx->ret <= 0))
-    return;
-  /* message header; recvmsg(2) */
-  struct msghdr *msg;
-
-  /* iov bytes copied; recvmsg(2) */
-  size_t iov_tot;
-
-  /* iterators */
-  size_t i;
-  struct iovec *iov;
-
-  /* total bytes received */
-  size_t tot;
-
-  /* extract the message header */
-  msg = (struct msghdr *)ctx->arg[SYSCALL_ARG1];
-
-  /* source address specified */
-  if (msg->msg_name != NULL) {
-    /* clear the tag bits */
-    tagmap_clrn((size_t)msg->msg_name, msg->msg_namelen);
-
-    /* clear the tag bits */
-    tagmap_clrn((size_t)&msg->msg_namelen, sizeof(int));
-  }
-
-  /* ancillary data specified */
-  if (msg->msg_control != NULL) {
-    /* clear the tag bits */
-    tagmap_clrn((size_t)msg->msg_control, msg->msg_controllen);
-
-    /* clear the tag bits */
-    tagmap_clrn((size_t)&msg->msg_controllen, sizeof(int));
-  }
-
-  /* flags; clear the tag bits */
-  tagmap_clrn((size_t)&msg->msg_flags, sizeof(int));
-
-  /* total bytes received */
-  tot = (size_t)ctx->ret;
-
-  /* iterate the iovec structures */
-  for (i = 0; i < msg->msg_iovlen && tot > 0; i++) {
-    /* get the next I/O vector */
-    iov = &msg->msg_iov[i];
-
-    /* get the length of the iovec */
-    iov_tot = (tot > (size_t)iov->iov_len) ? (size_t)iov->iov_len : tot;
-
-    /* clear the tag bits */
-    tagmap_clrn((size_t)iov->iov_base, iov_tot);
-
-    /* housekeeping */
-    tot -= iov_tot;
-  }
 }
 #endif // __linux__

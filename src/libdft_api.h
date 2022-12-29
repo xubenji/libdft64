@@ -47,9 +47,10 @@
  * virtual CPU (VCPU) context definition;
  * x86/x86_32/i386 arch
  */
-typedef struct {
-  // general purpose registers (GPRs)
-  tag_t gpr[GRP_NUM + 1][TAGS_PER_GPR];
+typedef struct
+{
+    // general purpose registers (GPRs)
+    tag_t gpr[GRP_NUM + 1][TAGS_PER_GPR];
 } vcpu_ctx_t;
 
 /*
@@ -57,25 +58,28 @@ typedef struct {
  *
  * only up to SYSCALL_ARGS (i.e., 6) are saved
  */
-typedef struct {
-  int nr;                       /* syscall number */
-  ADDRINT arg[SYSCALL_ARG_NUM]; /* arguments */
-  ADDRINT ret;                  /* return value */
-  void *aux;                    /* auxiliary data */
-  /* 	ADDRINT errno; */       /* error code */
+typedef struct
+{
+    int nr;                       /* syscall number */
+    ADDRINT arg[SYSCALL_ARG_NUM]; /* arguments */
+    ADDRINT ret;                  /* return value */
+    void *aux;                    /* auxiliary data */
+    /* 	ADDRINT errno; */         /* error code */
 } syscall_ctx_t;
 
 /* thread context definition */
-typedef struct {
-  vcpu_ctx_t vcpu;           /* VCPU context */
-  syscall_ctx_t syscall_ctx; /* syscall context */
-  UINT32 syscall_nr;
+typedef struct
+{
+    vcpu_ctx_t vcpu;           /* VCPU context */
+    syscall_ctx_t syscall_ctx; /* syscall context */
+    UINT32 syscall_nr;
 } thread_ctx_t;
 
 /* instruction (ins) descriptor */
-typedef struct {
-  void (*pre)(INS ins);  /* pre-ins instrumentation callback */
-  void (*post)(INS ins); /* post-ins instrumentation callback */
+typedef struct
+{
+    void (*pre)(INS ins);  /* pre-ins instrumentation callback */
+    void (*post)(INS ins); /* post-ins instrumentation callback */
 } ins_desc_t;
 
 /* libdft API */

@@ -1,6 +1,6 @@
 /*
- * Simple DTA tool that prevents data read from the network (using recv/recvfrom)
- * from influencing execve calls.
+ * Simple DTA tool that prevents data read from the network (using
+ * recv/recvfrom) from influencing execve calls.
  *
  * In a real tool, you'll want to add more taint sources/sinks. For instance,
  * you'll also want to consider data read from the network using the read
@@ -8,25 +8,25 @@
  * which file descriptors are reading from the network by hooking network calls
  * like accept, and so on.
  *
- * See /usr/include/i386-linux-gnu/asm/unistd_32.h for x86 (32 bit) syscall numbers.
- * See /usr/include/asm-generic/unistd.h for x64 syscall numbers.
+ * See /usr/include/i386-linux-gnu/asm/unistd_32.h for x86 (32 bit) syscall
+ * numbers. See /usr/include/asm-generic/unistd.h for x64 syscall numbers.
  */
 
+#include <assert.h>
+#include <ctype.h>
+#include <inttypes.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdint.h>
-#include <inttypes.h>
-#include <ctype.h>
-#include <assert.h>
 #include <unistd.h>
 
 #include <sys/types.h>
 
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
 #include <linux/net.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
 
 #include "pin.H"
 
@@ -36,13 +36,13 @@
 #include "tagmap.h"
 
 #include <errno.h>
-#include <sys/socket.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <set>
-#include <unistd.h>
 #include <linux/net.h>
+#include <set>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <unistd.h>
 
 #include "branch_pred.h"
 #include "libdft_api.h"
@@ -69,7 +69,9 @@ extern syscall_desc_t syscall_desc[SYSCALL_MAX];
 
 void alert(uintptr_t addr, const char *source, uint8_t tag)
 {
-    fprintf(stderr, "\n(dta-execve) !!!!!!! ADDRESS 0x%lx IS TAINTED (%s, tag=0x%02x), ABORTING !!!!!!!\n",
+    fprintf(stderr,
+            "\n(dta-execve) !!!!!!! ADDRESS 0x%lx IS TAINTED (%s, tag=0x%02x), "
+            "ABORTING !!!!!!!\n",
             addr, source, tag);
     exit(1);
 }
@@ -81,8 +83,8 @@ void check_string_taint(const char *str, const char *source)
     uintptr_t end = (uintptr_t)str + strlen(str);
 
 #if DBG_PRINTS
-    fprintf(stderr, "(dta-execve) checking taint on bytes 0x%lx -- 0x%lx (%s)... ",
-            start, end, source);
+    fprintf(stderr, "(dta-execve) checking taint on bytes 0x%lx -- 0x%lx (%s)... ", start,
+            end, source);
 #endif
 
     for (uintptr_t addr = start; addr <= end; addr++)
@@ -133,8 +135,7 @@ post_socketcall_hook(syscall_ctx_t *ctx)
         }
         fprintf(stderr, "\n");
 
-        fprintf(stderr, "(dta-execve) tainting bytes %p -- 0x%lx with tag 0x%x\n",
-                buf, (uintptr_t)buf + len, 0x01);
+        fprintf(stderr, "(dta-execve) tainting bytes %p -- 0x%lx with tag 0x%x\n", buf, (uintptr_t)buf + len, 0x01);
 #endif
 
         tagmap_setn((uintptr_t)buf, len, 0x01);
@@ -147,8 +148,8 @@ post_socketcall_hook(syscall_ctx_t *ctx)
 }
 
 /* ------- TAINT SINKS ------- */
-static void
-pre_execve_hook(syscall_ctx_t *ctx)
+
+static void pre_execve_hook(syscall_ctx_t *ctx)
 {
     const char *filename = (const char *)ctx->arg[SYSCALL_ARG0];
     char *const *args = (char *const *)ctx->arg[SYSCALL_ARG1];

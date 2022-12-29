@@ -1,0 +1,14 @@
+BasedOnStyle: Microsoft
+AccessModifierOffset: -4
+AlignTrailingComments: true
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: false
+BreakBeforeBraces: Allman
+ColumnLimit: 0
+IndentWidth: 4
+AlignConsecutiveMacros: true
+BinPackArguments: true
+BinPackParameters: true
+
+
+

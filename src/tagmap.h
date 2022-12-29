@@ -40,23 +40,23 @@
 /*
  * the bitmap size in bytes
  */
-#define PAGE_SIZE 4096
-#define PAGE_BITS 12
-#define TOP_DIR_SZ 0x800000
-#define PAGETABLE_SZ 0X1000
-#define PAGETABLE_BITS 24
-#define OFFSET_MASK 0x00000FFFU
+#define PAGE_SIZE             4096
+#define PAGE_BITS             12
+#define TOP_DIR_SZ            0x800000
+#define PAGETABLE_SZ          0X1000
+#define PAGETABLE_BITS        24
+#define OFFSET_MASK           0x00000FFFU
 #define PAGETABLE_OFFSET_MASK 0x00FFFFFFU
 
 #define VIRT2PAGETABLE(addr) ((addr) >> PAGETABLE_BITS)
-#define VIRT2PAGETABLE_OFFSET(addr)                                            \
-  (((addr)&PAGETABLE_OFFSET_MASK) >> PAGE_BITS)
+#define VIRT2PAGETABLE_OFFSET(addr) \
+    (((addr)&PAGETABLE_OFFSET_MASK) >> PAGE_BITS)
 
-#define VIRT2PAGE(addr) VIRT2PAGETABLE_OFFSET(addr)
+#define VIRT2PAGE(addr)   VIRT2PAGETABLE_OFFSET(addr)
 #define VIRT2OFFSET(addr) ((addr)&OFFSET_MASK)
 
-#define ALIGN_OFF_MAX 8 /* max alignment offset */
-#define ASSERT_FAST 32  /* used in comparisons  */
+#define ALIGN_OFF_MAX 8  /* max alignment offset */
+#define ASSERT_FAST   32 /* used in comparisons  */
 
 extern void libdft_die();
 
@@ -65,14 +65,17 @@ extern void libdft_die();
 // typedef std::array<tag_page_t*, PAGETABLE_SZ> tag_table_t;
 // typedef std::array<tag_table_t*, TOP_DIR_SZ> tag_dir_t;
 /* For file taint */
-typedef struct {
-  tag_t tag[PAGE_SIZE];
+typedef struct
+{
+    tag_t tag[PAGE_SIZE];
 } tag_page_t;
-typedef struct {
-  tag_page_t *page[PAGETABLE_SZ];
+typedef struct
+{
+    tag_page_t *page[PAGETABLE_SZ];
 } tag_table_t;
-typedef struct {
-  tag_table_t *table[TOP_DIR_SZ];
+typedef struct
+{
+    tag_table_t *table[TOP_DIR_SZ];
 } tag_dir_t;
 
 void tagmap_setb(ADDRINT addr, tag_t const &tag);

@@ -6,13 +6,14 @@
 #define SYSCALL_MAX __NR_sched_getattr + 1 /* max syscall number */
 
 /* system call descriptor */
-typedef struct {
-  size_t nargs;                           /* number of arguments */
-  size_t save_args;                       /* flag; save arguments */
-  size_t retval_args;                     /* flag; returns value in arguments */
-  size_t map_args[SYSCALL_ARG_NUM];       /* arguments map */
-  void (*pre)(THREADID, syscall_ctx_t *); /* pre-syscall callback */
-  void (*post)(THREADID, syscall_ctx_t *); /* post-syscall callback */
+typedef struct
+{
+    size_t nargs;                            /* number of arguments */
+    size_t save_args;                        /* flag; save arguments */
+    size_t retval_args;                      /* flag; returns value in arguments */
+    size_t map_args[SYSCALL_ARG_NUM];        /* arguments map */
+    void (*pre)(THREADID, syscall_ctx_t *);  /* pre-syscall callback */
+    void (*post)(THREADID, syscall_ctx_t *); /* post-syscall callback */
 } syscall_desc_t;
 
 /* syscall API */
