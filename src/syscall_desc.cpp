@@ -808,8 +808,7 @@ int syscall_set_pre(syscall_desc_t *desc,
  *
  * returns:	0 on success, 1 on error
  */
-int syscall_set_post(syscall_desc_t *desc,
-                     void (*post)(THREADID, syscall_ctx_t *))
+int syscall_set_post(syscall_desc_t *desc, void (*post)(THREADID, syscall_ctx_t *))
 {
     /* sanity checks */
     if (unlikely((desc == NULL) | (post == NULL)))

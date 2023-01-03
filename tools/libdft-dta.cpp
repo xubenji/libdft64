@@ -63,7 +63,7 @@
 #define DLIB_SUFF_ALT ".so."
 
 /* thread context */
-extern REG thread_ctx_ptr;
+//extern REG thread_ctx_ptr;
 
 /* ins descriptors */
 extern ins_desc_t ins_desc[XED_ICLASS_LAST];

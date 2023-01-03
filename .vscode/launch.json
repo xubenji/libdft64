@@ -1,82 +1,58 @@
+
+
+
+
 {
+    "version": "0.2.0",
     "configurations": [
-    {
-        "name": "(gdb) Attach",
-        "type": "lldb",
-        "request": "attach",
-        "pid": "21582",
-        "program": "/root/libdft/libdft64/tools/obj-intel64/track.so",
-        "preLaunchTask": "preBuild",
-        "MIMode": "gdb",
-        "setupCommands": [
-            {
-                "description": "Enable pretty-printing for gdb",
-                "text": "-enable-pretty-printing",
-                "ignoreFailures": true
-            },
-            {
-                "description": "Set Disassembly Flavor to Intel",
-                "text": "-gdb-set disassembly-flavor intel",
-                "ignoreFailures": true
-            }
-        ]
-    }
+        {
+            "name": "current file debug",
+            "type": "lldb",
+            "request": "launch",
+             "program": "./tools/a.out",
+            // "processId": "10047",
+            //  "preLaunchTask": "preBuild",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            // "includePath": [
+            //   "${workspaceFolder}/kernel/arch/amd64"
+            // ],
+            //  "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "miDebuggerPath": "/usr/bin/gdb",
+            //"miDebuggerServerAddress": "localhost:1234"
+        },
+        {
+            "name": "C/C++ Runner: Debug Session",
+            "type": "cppdbg",
+            "request": "launch",
+            "args": [
+                ""
+            ],
+            "stopAtEntry": false,
+            "cwd": "/home/parallels/Desktop/dolphin2/kernel/arch/amd64",
+            "environment": [],
+            "program": "/home/parallels/Desktop/dolphin2/kernel/arch/amd64/build/Debug/outDebug",
+            "internalConsoleOptions": "openOnSessionStart",
+            "MIMode": "gdb",
+            "miDebuggerPath": "gdb",
+            "externalConsole": false,
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        }
     ]
 }
-
-
-
-// {
-//     "version": "0.2.0",
-//     "configurations": [
-//         {
-//             "name": "GDB debug",
-//             "type": "cppdbg",
-//             "request": "launch",
-//             //  "program": "",
-//             // "processId": "10047",
-//             //  "preLaunchTask": "preBuild",
-//             "args": [],
-//             "stopAtEntry": true,
-//             "cwd": "${workspaceFolder}",
-//             // "includePath": [
-//             //   "${workspaceFolder}/kernel/arch/amd64"
-//             // ],
-//             //  "environment": [],
-//             "externalConsole": false,
-//             "MIMode": "gdb",
-//             "setupCommands": [
-//                 {
-//                     "description": "Enable pretty-printing for gdb",
-//                     "text": "-enable-pretty-printing",
-//                     "ignoreFailures": true
-//                 }
-//             ],
-//             "miDebuggerPath": "/usr/bin/gdb",
-//             //"miDebuggerServerAddress": "localhost:1234"
-//         },
-//         {
-//             "name": "C/C++ Runner: Debug Session",
-//             "type": "cppdbg",
-//             "request": "launch",
-//             "args": [
-//                 ""
-//             ],
-//             "stopAtEntry": false,
-//             "cwd": "/home/parallels/Desktop/dolphin2/kernel/arch/amd64",
-//             "environment": [],
-//             "program": "/home/parallels/Desktop/dolphin2/kernel/arch/amd64/build/Debug/outDebug",
-//             "internalConsoleOptions": "openOnSessionStart",
-//             "MIMode": "gdb",
-//             "miDebuggerPath": "gdb",
-//             "externalConsole": false,
-//             "setupCommands": [
-//                 {
-//                     "description": "Enable pretty-printing for gdb",
-//                     "text": "-enable-pretty-printing",
-//                     "ignoreFailures": true
-//                 }
-//             ]
-//         }
-//     ]
-// }

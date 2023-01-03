@@ -1,2 +1,0 @@
-set sysroot /not/existing/dir
-add-symbol-file /root/libdft/libdft64/tools/obj-intel64/track.so 0x7f30826ee1a0 -s .data 0x7f308290a8c0 -s .bss 0x7f3082911f40
